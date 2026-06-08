@@ -4,12 +4,14 @@ const {
   createOrder,
   getOrders,
   getOrderById,
-  updateOrderStatus
+  updateOrderStatus,
+  getMyOrders
 } = require('../controllers/orderController');
 const { protect, adminOnly } = require('../middleware/authMiddleware');
 
 // Customer routes
 router.post('/', protect, createOrder);
+router.get('/myorders', protect, getMyOrders);
 
 // Admin routes
 router.get('/', protect, adminOnly, getOrders);

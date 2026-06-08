@@ -59,4 +59,22 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getOrders, getOrderById, updateOrderStatus };
+// Get my orders (customer) ← THIS WAS MISSING!
+const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.user.id })
+      .populate('products.productId', 'name price image')
+      .sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { 
+  createOrder, 
+  getOrders, 
+  getOrderById, 
+  updateOrderStatus,
+  getMyOrders
+};
